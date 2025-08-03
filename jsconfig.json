@@ -1,0 +1,9 @@
+// This tells Vite and text editor (like VS Code) that @ refers to src/.
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}
