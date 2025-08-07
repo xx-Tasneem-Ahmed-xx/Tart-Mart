@@ -11,7 +11,7 @@ import LinkedInIcon from "@/assets/icons/linkedin.svg?react";
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-black text-white px-4 py-16">
+    <footer className="w-full bg-black text-white px-4 py-16 mt-20">
       <div className="flex flex-col md:flex-row gap-6 flex-wrap justify-around ">
         <section className="flex flex-col justify-center self-start gap-y-2">
           <h3 className="text-xl font-medium mb-4">Exclusive</h3>
