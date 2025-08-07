@@ -62,12 +62,12 @@ export default function AuthForm() {
         <img
           src={Phone}
           alt="phone resting on a shopping cart"
-          className="w-3/4 self-center sm:w-2/5"
+          className="w-3/4 sm:w-6/12"
         />
 
-        <div className="flex flex-col self-center justify-start gap-y-14 sm:w-1/5">
+        <div className="flex flex-col self-center justify-start gap-y-7 sm:w-1/5">
           <div>
-            <h1 className="font-semibold text-3xl mb-3">
+            <h1 className="font-semibold text-3xl mb-2">
               {isSignIn ? "Log in to Tart Mart" : "Create an account"}
             </h1>
             <p>Enter your details below</p>
