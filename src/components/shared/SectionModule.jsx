@@ -11,11 +11,11 @@ import ProductCard from "./ProductCard";
 import CategoryCard from "./CategoryCard";
 import Featured from "./Featured";
 export default function ProductCarousel({
-  title1,
-  title2,
+  title1 = "",
+  title2 = "",
   timer = false,
   products,
-  index,
+  index = 0,
   sale,
   categories = [],
   sectionType,
