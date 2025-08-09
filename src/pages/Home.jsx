@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Hero from "@/components/shared/Hero";
-import ProductCarousel from "@/components/shared/ProductCarousel";
+import SectionModule from "@/components/shared/SectionModule";
 import Speaker from "@/assets/images/speaker.png";
 import Highlights from "@/components/shared/Highlights";
 export default function Home() {
@@ -22,7 +22,7 @@ export default function Home() {
     <>
       <section className="flex flex-col items-center w-7xl gap-y-16 px-4 sm:px-8 lg:px-16">
         <Hero />
-        <ProductCarousel
+        <SectionModule
           products={products}
           index={0}
           title1="Today's"
@@ -31,7 +31,7 @@ export default function Home() {
           sale={true}
           sectionType="products"
         />
-        <ProductCarousel
+        <SectionModule
           products={products}
           categories={categories}
           title1="Categories"
@@ -39,7 +39,7 @@ export default function Home() {
           timer={false}
           sectionType="category"
         />
-        <ProductCarousel
+        <SectionModule
           products={products}
           index={6}
           title1="This Month"
@@ -50,14 +50,14 @@ export default function Home() {
         <div className="hover:cursor-pointer">
           <img src={Speaker} alt="speaker" />
         </div>
-        <ProductCarousel
+        <SectionModule
           products={products}
           index={12}
           title1="Our Products"
           title2="Explore Our Products"
           sectionType="products"
         />
-        <ProductCarousel
+        <SectionModule
           products={products}
           index={12}
           title1="Featured"

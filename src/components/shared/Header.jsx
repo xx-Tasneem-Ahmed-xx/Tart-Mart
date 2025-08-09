@@ -5,7 +5,7 @@ import SearchIcon from "@/assets/icons/search.svg?react";
 import HeartIcon from "@/assets/icons/heart.svg?react";
 import CartIcon from "@/assets/icons/cart.svg?react";
 import ProfileIcon from "@/assets/icons/profile.svg?react";
-
+import { Link } from "react-router-dom";
 export default function Header() {
   return (
     <header>
@@ -21,16 +21,16 @@ export default function Header() {
         <div className="sm:w-2/5">
           <ul className="flex gap-x-4  mt-4 justify-evenly items-center self-start font-medium">
             <li>
-              <a href="#">Home</a>
+              <Link to={"/"}>Home</Link>
             </li>
             <li>
-              <a href="#">Contact</a>
+              <Link to={"/contact"}>Contact</Link>
             </li>
             <li>
-              <a href="#">About</a>
+              <Link to={"#"}>About</Link>
             </li>
             <li>
-              <a href="#">Sign Up</a>
+              <Link to={"/signup"}>Sign Up</Link>
             </li>
           </ul>
         </div>

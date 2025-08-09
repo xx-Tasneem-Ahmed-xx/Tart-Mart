@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import MainLayout from "../layout/MainLayout";
-import { Button } from "../ui/button";
+import { Button } from "../components/ui/button";
 export default function NotFound404() {
   return (
     <>
@@ -10,11 +9,11 @@ export default function NotFound404() {
         <p className="text-xl text-gray-600 mb-8">
           Oops! The page you're looking for doesn't exist.
         </p>
-        {/* <Link to="/" className="text-blue-500 underline">
-            Go back to Home
-          </Link> */}
-
-        <Button variant="destructive">Back to home page</Button>
+        <Link to={"/"}>
+          <Button variant="destructive" className="hover:cursor-pointer">
+            Back to home page
+          </Button>
+        </Link>
       </div>
     </>
   );
