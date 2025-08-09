@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useMemo, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchProducts } from "@/store/productsSlice";
 import Hero from "@/components/shared/Hero";
 import SectionModule from "@/components/shared/SectionModule";
 import Speaker from "@/assets/images/speaker.png";
 import Highlights from "@/components/shared/Highlights";
-export default function Home() {
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data);
-        setCategories([
-          ...new Set(products.map((product) => product.category)),
-        ]);
-      })
-      .catch((err) => console.error("Fetch error:", err));
-  }, [products]);
 
+export default function Home() {
+  const dispatch = useDispatch();
+  const { data: products, status } = useSelector((state) => state.products);
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchProducts());
+    }
+  }, [status, dispatch]);
+
+  const categories = useMemo(() => {
+    return [...new Set(products.map((product) => product.category))];
+  }, [products]);
   return (
     <>
       <section className="flex flex-col items-center w-7xl gap-y-16 px-4 sm:px-8 lg:px-16">
