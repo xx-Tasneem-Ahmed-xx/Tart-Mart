@@ -8,7 +8,7 @@ import ProfileIcon from "@/assets/icons/profile.svg?react";
 import { Link } from "react-router-dom";
 export default function Header() {
   return (
-    <header>
+    <header className="mb-15">
       <p className="bg-black text-white text-center">
         Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!
         <span className="font-bold underline m-4">
