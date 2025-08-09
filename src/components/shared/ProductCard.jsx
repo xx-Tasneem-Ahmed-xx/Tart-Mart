@@ -25,7 +25,9 @@ export default function ProductCard({ product, sale = 0 }) {
             <Eye className="bg-white rounded-full size-7" />
           </div>
         </div>
-        <h4 className="text-lg font-semibold max-w-fit">{product.title}</h4>
+        <h4 className="text-lg font-semibold max-w-fit line-clamp-2">
+          {product.title}
+        </h4>
         <div className="flex justify-start items-baseline gap-x-3">
           <p className="text-[#DB4444] text-lg font-semibold">
             ${product.price}

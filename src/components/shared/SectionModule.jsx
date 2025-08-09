@@ -55,7 +55,7 @@ export default function ProductCarousel({
           <CarouselNext />
         </Carousel>
       )}
-      {sectionType === "Products" && (
+      {sectionType === "products" && (
         <button className="bg-[#DB4444] w-fit self-center mt-7 p-4 rounded-md text-white hover:cursor-pointer">
           View All Products
         </button>

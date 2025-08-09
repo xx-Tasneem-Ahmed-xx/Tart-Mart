@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input } from "../ui/input";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Phone from "@/assets/images/phone.png";
 import { useForm } from "react-hook-form";
