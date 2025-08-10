@@ -1,7 +1,8 @@
 import Home from "@/pages/Home";
 import NotFound from "@/pages/NotFound404";
 import AuthForm from "@/pages/AuthForm";
-import ProductDetails from "./pages/ProductDetails";
+import ProductDetails from "@/pages/ProductDetails";
+import Products from "@/pages/Products";
 
 const routes = [
   {
@@ -15,6 +16,10 @@ const routes = [
   {
     path: "/product/:id",
     element: <ProductDetails />,
+  },
+  {
+    path: "/products",
+    element: <Products />,
   },
   {
     path: "*",

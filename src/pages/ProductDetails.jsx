@@ -20,6 +20,7 @@ export default function ProductDetails() {
   );
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     dispatch(fetchSingleProduct(id));
     dispatch(fetchProducts());
   }, [dispatch, id]);

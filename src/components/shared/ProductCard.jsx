@@ -2,11 +2,16 @@ import React from "react";
 import StarRating from "./StarRating";
 import { Heart } from "lucide-react";
 import { Eye } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function ProductCard({ product, sale = 0 }) {
+  const navigate = useNavigate();
   return (
     <>
-      <div className="flex flex-col gap-2 relative p-1">
+      <div
+        onClick={() => navigate(`/product/${product.id}`)}
+        className="flex flex-col gap-2 relative p-1 hover:cursor-pointer transition-transform hover:-translate-y-2"
+      >
         <div className="h-48 w-full overflow-hidden">
           <img
             src={product.image}

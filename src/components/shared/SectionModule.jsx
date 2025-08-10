@@ -10,6 +10,7 @@ import {
 import ProductCard from "./ProductCard";
 import CategoryCard from "./CategoryCard";
 import Featured from "./Featured";
+import { useNavigate } from "react-router-dom";
 export default function ProductCarousel({
   title1 = "",
   title2 = "",
@@ -20,6 +21,7 @@ export default function ProductCarousel({
   categories = [],
   sectionType,
 }) {
+  const navigate = useNavigate();
   return (
     <section className="flex flex-col w-full justify-start  ">
       <div className="flex items-center">
@@ -56,7 +58,10 @@ export default function ProductCarousel({
         </Carousel>
       )}
       {sectionType === "products" && (
-        <button className="bg-[#DB4444] w-fit self-center mt-7 p-4 rounded-md text-white hover:cursor-pointer">
+        <button
+          className="bg-[#DB4444] w-fit self-center mt-7 p-4 rounded-md text-white hover:cursor-pointer"
+          onClick={() => navigate("/products")}
+        >
           View All Products
         </button>
       )}
