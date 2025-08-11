@@ -8,6 +8,11 @@ import ProfileIcon from "@/assets/icons/profile.svg?react";
 import { Link } from "react-router-dom";
 export default function Header() {
   const links = ["Home", "Contact", "About", "SignUp"];
+  const icons = [
+    { link: "/wishlist", tag: <HeartIcon /> },
+    { link: "/cart", tag: <CartIcon /> },
+    { link: "/account", tag: <ProfileIcon /> },
+  ];
   return (
     <header className="mb-15">
       <p className="bg-black text-white text-center">
@@ -24,7 +29,7 @@ export default function Header() {
             {links.map((link, index) => (
               <li
                 key={index}
-                className="hover:bg-gray-100 rounded-md p-1 transition-transform hover:-translate-y-1"
+                className="hover:bg-[#db4444b2] rounded-md p-1 transition-transform hover:-translate-y-1"
               >
                 <Link to={link === "Home" ? "" : link}>{link}</Link>
               </li>
@@ -42,9 +47,17 @@ export default function Header() {
               <SearchIcon />
             </div>
           </div>
-          <HeartIcon />
-          <CartIcon />
-          <ProfileIcon />
+          <div className="flex gap-3 items-center ">
+            {icons.map((icon, index) => (
+              <Link
+                key={index}
+                to={icon.link}
+                className="hover:bg-[#db4444b2] rounded-md p-1 transition-transform hover:-translate-y-1 "
+              >
+                {icon.tag}
+              </Link>
+            ))}
+          </div>
         </div>
       </nav>
       <hr />

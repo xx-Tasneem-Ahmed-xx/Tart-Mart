@@ -1,61 +1,53 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Phone from "@/assets/images/phone.png";
+import { Alert, AlertTitle } from "@/components/ui/alert";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { signInSchema, signUpSchema } from "@/features/auth/authSchema";
+import { onSubmitHandler } from "@/features/auth/authHandlers";
+import Phone from "@/assets/images/phone.png";
+import { XCircleIcon } from "lucide-react";
+import GoogleIcon from "@/assets/icons/google.svg?react";
 
 export default function AuthForm() {
   const [isSignIn, setIsSignIn] = useState(false);
-
-  const signInSchema = z.object({
-    email: z.string().email(),
-    password: z.string().min(6),
+  const [alert, setAlert] = useState({
+    visible: false,
+    title: <></>,
+    icon: "",
   });
 
-  const signUpSchema = z
-    .object({
-      name: z.string().min(3),
-      email: z.string().email(),
-      password: z.string().min(6),
-      confirmPassword: z.string().min(6),
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-      message: "Passwords do not match",
-      path: ["confirmPassword"],
-    });
-
-  const formSchema = isSignIn ? signUpSchema : signInSchema;
+  const formSchema = isSignIn ? signInSchema : signUpSchema;
+  const navigate = useNavigate();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: isSignIn
       ? {
+          email: "",
+          password: "",
+        }
+      : {
           name: "",
           email: "",
           password: "",
           confirmPassword: "",
-        }
-      : {
-          email: "",
-          password: "",
         },
   });
-
-  const onSubmit = (values) => {
-    console.log("Form submitted with:", values);
-    //TODO Handle sign-in logic here
+  const handleToggleForm = () => {
+    form.reset();
+    setIsSignIn(!isSignIn);
   };
+
   return (
     <>
       <section className="flex flex-col gap-y-6 sm:gap-y-0 sm:flex-row flex-wrap justify-start my-5 gap-x-10 sm:gap-x-64 ">
@@ -74,16 +66,20 @@ export default function AuthForm() {
           </div>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form
+              onSubmit={form.handleSubmit((values) =>
+                onSubmitHandler(values, isSignIn, navigate, setAlert)
+              )}
+              className="space-y-4"
+            >
               {!isSignIn && (
                 <FormField
                   control={form.control}
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Full Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Tamtam Anderson" {...field} />
+                        <Input placeholder="Name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -96,9 +92,8 @@ export default function AuthForm() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="you@example.com" {...field} />
+                      <Input placeholder="Email" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -109,11 +104,10 @@ export default function AuthForm() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
                     <FormControl>
                       <Input
                         type="password"
-                        placeholder="••••••••"
+                        placeholder="Password"
                         {...field}
                       />
                     </FormControl>
@@ -121,18 +115,16 @@ export default function AuthForm() {
                   </FormItem>
                 )}
               />
-              {/* Confirm Password (Sign Up only) */}
               {!isSignIn && (
                 <FormField
                   control={form.control}
                   name="confirmPassword"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Confirm Password</FormLabel>
                       <FormControl>
                         <Input
                           type="password"
-                          placeholder="••••••••"
+                          placeholder="Confirm Password"
                           {...field}
                         />
                       </FormControl>
@@ -167,16 +159,17 @@ export default function AuthForm() {
                   </Button>
                   <Button
                     type="submit"
-                    variant="destructive"
+                    variant="secondary"
                     className="sm:w-full mr-4"
                   >
+                    <GoogleIcon />
                     Sign up with google
                   </Button>
                   <p>
                     Already have an account?{" "}
                     <button
                       className="underline hover:cursor-pointer"
-                      onClick={() => setIsSignIn(true)}
+                      onClick={() => handleToggleForm()}
                     >
                       Log in
                     </button>
@@ -185,6 +178,22 @@ export default function AuthForm() {
               )}
             </form>
           </Form>
+          {alert.visible && (
+            <Alert className=" flex fixed top-0 right-0 bg-green-300 w-fit">
+              {alert.icon}
+              <AlertTitle>{alert.title}</AlertTitle>
+              <button
+                className="hover:cursor-pointer"
+                onClick={() =>
+                  setAlert({
+                    visible: false,
+                  })
+                }
+              >
+                <XCircleIcon size={22} />
+              </button>
+            </Alert>
+          )}
         </div>
       </section>
     </>
