@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import StarRating from "./StarRating";
 import { Heart } from "lucide-react";
 import { Eye } from "lucide-react";
+import { Trash2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToWishlist } from "@/store/wishListSlice";
+import { removeFromWishlist } from "@/store/wishListSlice";
 
-export default function ProductCard({ product, sale = 0 }) {
+export default function ProductCard({ product, sale = 0, wishlist = false }) {
+  const [isFav, setIsFav] = useState(product.favourite || false);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   return (
     <>
-      <div className="flex flex-col gap-2 relative p-1">
-        <div className="h-48 w-full overflow-hidden">
+      <div className="flex flex-col gap-2 relative p-1 transition-transform hover:-translate-y-2">
+        <div className="h-48 w-full relative overflow-hidden">
           <img
             src={product.image}
             alt={product.description}
@@ -20,12 +29,44 @@ export default function ProductCard({ product, sale = 0 }) {
           ) : (
             ""
           )}
-          <div className="flex flex-col gap-y-2 absolute top-2 right-1/12">
-            <Heart className="bg-white rounded-full size-7" />
-            <Eye className="bg-white rounded-full size-7" />
+          {wishlist && (
+            <>
+              <button
+                className="bg-black w-full absolute bottom-0 text-white text-center rounded-md p-2 hover:cursor-pointer hover:opacity-80"
+                onClick={() => {
+                  //move to cart
+                }}
+              >
+                Add To Cart
+              </button>
+            </>
+          )}
+          <div className="flex flex-col gap-y-2 absolute top-2 right-1/12 hover:cursor-pointer">
+            {(wishlist && (
+              <Trash2
+                className="bg-white rounded-full size-6"
+                onClick={() => dispatch(removeFromWishlist(product.id))}
+              />
+            )) || (
+              <>
+                <Heart
+                  className={`bg-white rounded-full size-6 hover:fill-[#db4444ba] ${
+                    isFav ? "fill-[#db4444ba]" : ""
+                  }`}
+                  onClick={() => {
+                    setIsFav(!isFav);
+                    dispatch(addToWishlist(product)); // optional if you want Redux update too
+                  }}
+                />
+                <Eye className="bg-white rounded-full size-6" />
+              </>
+            )}
           </div>
         </div>
-        <h4 className="text-lg font-semibold max-w-fit line-clamp-2">
+        <h4
+          className="text-lg font-semibold max-w-fit line-clamp-2 hover:cursor-pointer hover:underline"
+          onClick={() => navigate(`/product/${product.id}`)}
+        >
           {product.title}
         </h4>
         <div className="flex justify-start items-baseline gap-x-3">
