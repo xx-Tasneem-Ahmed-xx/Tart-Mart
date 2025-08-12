@@ -3,7 +3,8 @@ import NotFound from "@/pages/NotFound404";
 import AuthForm from "@/pages/AuthForm";
 import ProductDetails from "@/pages/ProductDetails";
 import Products from "@/pages/Products";
-import Account from "./pages/Account";
+import Account from "@/pages/Account";
+import WishList from "@/pages/WishList";
 
 const routes = [
   {
@@ -26,6 +27,7 @@ const routes = [
     path: "/account",
     element: <Account />,
   },
+  { path: "/wishlist", element: <WishList /> },
   {
     path: "*",
     element: <NotFound />,
