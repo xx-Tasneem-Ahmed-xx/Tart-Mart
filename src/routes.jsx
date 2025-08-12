@@ -3,6 +3,7 @@ import NotFound from "@/pages/NotFound404";
 import AuthForm from "@/pages/AuthForm";
 import ProductDetails from "@/pages/ProductDetails";
 import Products from "@/pages/Products";
+import Account from "./pages/Account";
 
 const routes = [
   {
@@ -20,6 +21,10 @@ const routes = [
   {
     path: "/products",
     element: <Products />,
+  },
+  {
+    path: "/account",
+    element: <Account />,
   },
   {
     path: "*",
