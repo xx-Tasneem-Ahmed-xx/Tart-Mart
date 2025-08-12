@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-
+import { MenuIcon, XCircle } from "lucide-react";
 export default function Account() {
   const [selectedItem, setSelectedItem] = useState("My Profile");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const user = JSON.parse(localStorage.getItem("token"));
   const [formValues, setFormValues] = useState({
     firstname: user.name.firstname || "",
@@ -99,37 +100,56 @@ export default function Account() {
       //TODO send to api new data and replace the ones in local storage
     }
   };
+  const generateMenu = function () {
+    return menu.map((item, index) => (
+      <div key={index} className="flex flex-col gap-2 mb-4">
+        <h4 className="font-medium">{item.title}</h4>
+        {item.subItems?.map((subItem, ind) => (
+          <a
+            key={ind}
+            className={`hover:text-[#DB4444] cursor-pointer pl-4 ${
+              selectedItem === subItem ? "text-[#DB4444]" : "text-gray-500"
+            }`}
+            onClick={() => {
+              setSelectedItem(subItem);
+              setSidebarOpen(false);
+            }}
+          >
+            {subItem}
+          </a>
+        ))}
+      </div>
+    ));
+  };
   return (
     <section className="w-7xl px-4 sm:px-8 lg:px-16">
-      <h2 className="text-right">
+      <button
+        className="md:hidden hover:cursor-pointer"
+        onClick={() => setSidebarOpen(true)}
+      >
+        <MenuIcon />
+      </button>
+
+      {sidebarOpen && (
+        <aside className="fixed inset-0 z-50 md:hidden">
+          <div className="bg-white w-64 h-full p-4 shadow-lg flex flex-col">
+            <button className="self-end" onClick={() => setSidebarOpen(false)}>
+              <XCircle />
+            </button>
+            {generateMenu()}
+          </div>
+        </aside>
+      )}
+
+      <h2 className="text-right mb-10">
         Welcome! <span className="text-[#DB4444]">{user.name.firstname}</span>
       </h2>
-      <div className="flex gap-56">
-        <div className="flex flex-col gap-3">
-          {menu.map((item, index) => (
-            <div key={index} className="flex flex-col gap-2">
-              <h4 key={index} className="font-medium ">
-                {item.title}
-              </h4>
-              {item.subItems?.map((subItem, ind) => (
-                <a
-                  key={ind}
-                  className={`hover:text-[#DB4444] hover:cursor-pointer pl-6 ${
-                    selectedItem === subItem
-                      ? "text-[#DB4444]"
-                      : "text-gray-300"
-                  }`}
-                  onClick={() => {
-                    setSelectedItem(subItem);
-                  }}
-                >
-                  {subItem}
-                </a>
-              ))}
-            </div>
-          ))}
+
+      <div className="flex gap-10">
+        <div className="hidden md:flex md:flex-col lg:gap-3 w-1/3">
+          {generateMenu()}
         </div>
-        <div className="grid gap-x-10 gap-y-4 grid-cols-2 size-1/2 shadow-md p-5">
+        <div className="w-full md:w-3/4 grid gap-x-10 gap-y-4 grid-cols-2  shadow-md p-5">
           <h3 className="font-medium text-[#DB4444] text-2xl col-span-2">
             Edit Your Profile
           </h3>
@@ -159,7 +179,7 @@ export default function Account() {
               .map((_, index) => (
                 <button
                   key={index}
-                  className={`p-4 rounded-md cursor-pointer ${
+                  className={`p-1 md:p-3 rounded-md cursor-pointer ${
                     index === 1 ? "bg-[#DB4444] text-white w-4/12" : ""
                   }`}
                   onClick={() => profileChangesHandler(index)}
