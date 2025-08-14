@@ -6,6 +6,7 @@ const navigateHandler = function (user, navigate, setAlert, message) {
 
   setAlert({
     visible: true,
+    bgColor: "bg-green-300",
     icon: <CheckCircle2Icon />,
     title: `${message} Welcome ${user.name.firstname}.`,
   });
@@ -28,6 +29,7 @@ export const signInHandler = async (formData, navigate, setAlert) => {
   } catch (error) {
     setAlert({
       visible: true,
+      bgColor: "bg-red-300",
       icon: <MessageSquareWarning />,
       title: `Error: ${error.message}.`,
     });
@@ -47,6 +49,7 @@ export const signUpHandler = async (formData, navigate, setAlert) => {
   } catch (error) {
     setAlert({
       visible: true,
+      bgColor: "bg-red-300",
       icon: <MessageSquareWarning />,
       title: `Error: ${error.message}.`,
     });

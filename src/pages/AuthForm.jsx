@@ -22,8 +22,9 @@ export default function AuthForm() {
   const [isSignIn, setIsSignIn] = useState(false);
   const [alert, setAlert] = useState({
     visible: false,
-    title: <></>,
-    icon: "",
+    bgColor: "bg-green-300",
+    title: "",
+    icon: <></>,
   });
 
   const formSchema = isSignIn ? signInSchema : signUpSchema;
@@ -179,7 +180,9 @@ export default function AuthForm() {
             </form>
           </Form>
           {alert.visible && (
-            <Alert className=" flex fixed top-0 right-0 bg-green-300 w-fit">
+            <Alert
+              className={`flex fixed top-0 right-0 ${alert.bgColor} w-fit`}
+            >
               {alert.icon}
               <AlertTitle>{alert.title}</AlertTitle>
               <button

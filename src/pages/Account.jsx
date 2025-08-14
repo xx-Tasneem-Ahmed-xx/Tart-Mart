@@ -1,14 +1,22 @@
 import React, { useState } from "react";
-import { MenuIcon, XCircle } from "lucide-react";
+import axios from "axios";
+import { MenuIcon, XCircleIcon, CheckCircle2Icon } from "lucide-react";
+import { Alert, AlertTitle } from "@/components/ui/alert";
 export default function Account() {
   const [selectedItem, setSelectedItem] = useState("My Profile");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [alert, setAlert] = useState({
+    visible: false,
+    bgColor: "bg-green-300",
+    title: "",
+    icon: <></>,
+  });
   const user = JSON.parse(localStorage.getItem("token"));
   const [formValues, setFormValues] = useState({
     firstname: user.name.firstname || "",
     lastname: user.name.lastname || "",
     email: user.email || "",
-    address: user.address || "",
+    address: [user.address.city, user.address.street].join(", ") || "",
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
@@ -82,22 +90,75 @@ export default function Account() {
     }));
   };
 
-  const profileChangesHandler = function (buttonType) {
+  const cleanForm = function (updateduser = user) {
+    setFormValues({
+      firstname: updateduser.name.firstname || "",
+      lastname: updateduser.name.lastname || "",
+      email: updateduser.email || "",
+      address:
+        [updateduser.address.city, updateduser.address.street].join(", ") || "",
+      currentPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+    });
+  };
+
+  const profileChangesHandler = async function (buttonType) {
     // 0 for cancel
     if (buttonType === 0) {
-      setFormValues({
-        firstname: user.name.firstname || "",
-        lastname: user.name.lastname || "",
-        email: user.email || "",
-        address: user.address || "",
-        currentPassword: "",
-        newPassword: "",
-        confirmPassword: "",
-      });
+      cleanForm();
     }
     // 1 for save changes
     if (buttonType === 1) {
-      //TODO send to api new data and replace the ones in local storage
+      try {
+        if (
+          formValues.newPassword !== formValues.confirmPassword ||
+          (formValues.currentPassword &&
+            formValues.newPassword &&
+            user.password !== formValues.currentPassword)
+        ) {
+          throw new Error("Passwords don't match");
+        }
+        const [city, street] = (formValues.address || "")
+          .split(", ")
+          .map((s) => s.trim());
+        const updatedUser = {
+          ...user,
+          name: {
+            firstname: formValues.firstname,
+            lastname: formValues.lastname,
+          },
+          address: {
+            ...user.address,
+            city: city || user.address.city,
+            street: street || user.address.street,
+          },
+          password: formValues.newPassword
+            ? formValues.newPassword
+            : user.password,
+        };
+        localStorage.setItem("token", JSON.stringify(updatedUser));
+
+        await axios.put(
+          `https://fakestoreapi.com/users/${user.id}`,
+          updatedUser
+        );
+        setAlert({
+          visible: true,
+          bgColor: "bg-green-300",
+          icon: <CheckCircle2Icon />,
+          title: `Profile updated successfully.`,
+        });
+        cleanForm(updatedUser);
+      } catch (error) {
+        setAlert({
+          visible: true,
+          bgColor: "bg-red-300",
+          icon: <CheckCircle2Icon />,
+          title: `Failed to update profile. ${error.message}`,
+        });
+        cleanForm();
+      }
     }
   };
   const generateMenu = function () {
@@ -134,7 +195,7 @@ export default function Account() {
         <aside className="fixed inset-0 z-50 md:hidden">
           <div className="bg-white w-64 h-full p-4 shadow-lg flex flex-col">
             <button className="self-end" onClick={() => setSidebarOpen(false)}>
-              <XCircle />
+              <XCircleIcon />
             </button>
             {generateMenu()}
           </div>
@@ -190,6 +251,22 @@ export default function Account() {
           </div>
         </div>
       </div>
+      {alert.visible && (
+        <Alert className={`flex fixed top-0 right-0 ${alert.bgColor} w-fit`}>
+          {alert.icon}
+          <AlertTitle>{alert.title}</AlertTitle>
+          <button
+            className="hover:cursor-pointer"
+            onClick={() =>
+              setAlert({
+                visible: false,
+              })
+            }
+          >
+            <XCircleIcon size={22} />
+          </button>
+        </Alert>
+      )}
     </section>
   );
 }
