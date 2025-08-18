@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToWishlist } from "@/store/wishListSlice";
 import { removeFromWishlist } from "@/store/wishListSlice";
+import { addToCart } from "@/store/cartSlice";
 
 export default function ProductCard({ product, sale = 0, wishlist = false }) {
   const [isFav, setIsFav] = useState(product.favourite || false);
@@ -33,9 +34,7 @@ export default function ProductCard({ product, sale = 0, wishlist = false }) {
             <>
               <button
                 className="bg-black w-full absolute bottom-0 text-white text-center rounded-md p-2 hover:cursor-pointer hover:opacity-80"
-                onClick={() => {
-                  //move to cart
-                }}
+                onClick={() => dispatch(addToCart({ productId: product.id }))}
               >
                 Add To Cart
               </button>

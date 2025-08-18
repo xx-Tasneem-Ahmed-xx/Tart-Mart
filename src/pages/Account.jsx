@@ -210,7 +210,7 @@ export default function Account() {
         <div className="hidden md:flex md:flex-col lg:gap-3 w-1/3">
           {generateMenu()}
         </div>
-        <div className="w-full md:w-3/4 grid gap-x-10 gap-y-4 grid-cols-2  shadow-md p-5">
+        <div className="w-full md:w-3/4 grid gap-x-10 gap-y-4 grid-cols-2 shadow-md p-5">
           <h3 className="font-medium text-[#DB4444] text-2xl col-span-2">
             Edit Your Profile
           </h3>

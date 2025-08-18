@@ -22,7 +22,7 @@ export default function Header() {
         </span>
         <LanguageToggle />
       </p>
-      <nav className="sm:flex justify-evenly w-full mt-10 mb-2 items-center">
+      <nav className="sm:flex justify-evenly w-full mt-4 mb-2 items-center">
         <h1 className="text-3xl sm:text-4xl font-bold">Tart Mart</h1>
         <div className="sm:w-2/5">
           <ul className="flex gap-x-4  mt-4 justify-evenly items-center self-start font-medium">
