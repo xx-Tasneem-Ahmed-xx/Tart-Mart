@@ -7,6 +7,7 @@ export default function Products() {
   const dispatch = useDispatch();
   const { data: products, status } = useSelector((state) => state.products);
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (status === "idle") {
       dispatch(fetchProducts());
     }

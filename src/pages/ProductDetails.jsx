@@ -68,7 +68,6 @@ export default function ProductDetails() {
               className=" bg-[#5c5c5c10] rounded-md p-5 object-contain w-full h-full"
             />
           </div>
-          {console.log(singleProduct)}
           <div className="flex flex-col gap-2 items-start row-start-1 col-start-3 row-span-4 ml-12">
             <h3 className="font-medium text-2xl">{singleProduct.title}</h3>
             <StarRating
@@ -80,7 +79,6 @@ export default function ProductDetails() {
             <div className="w-full bg-gray-400 h-[0.2px] my-5"></div>
             <div className="flex gap-4 h-10 ">
               <p>Colours:</p>
-              {console.log(availableColors)}
               {availableColors.map((color, index) => (
                 <button
                   key={index}
