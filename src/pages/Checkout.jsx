@@ -3,6 +3,7 @@ import CheckoutProduct from "@/components/shared/CheckoutProduct";
 import BkashIcon from "@/assets/icons/bkash.svg?react";
 import VisaIcon from "@/assets/icons/visa.svg?react";
 import MasterCardIcon from "@/assets/icons/masterCard.svg?react";
+import PriceSummary from "@/components/shared/PriceSummary";
 export default function Checkout() {
   const inputs = [
     {
@@ -124,16 +125,7 @@ export default function Checkout() {
         <div className="flex flex-col w-1/3 gap-y-4">
           {/* TODO: MAP ON each product in cart */}
           <CheckoutProduct />
-          {details.map((detail, index) => (
-            <div
-              key={index}
-              className="flex justify-between my-1 border-b-1 pb-3 border-[#9f9f9f]"
-            >
-              <p>{detail.title}</p>
-              <p>{detail.value}$</p>
-            </div>
-          ))}
-
+          <PriceSummary details={details} />
           {inputs.slice(-2).map((input, index) => (
             <div key={index} className="flex justify-between items-center mb-3">
               <div className="flex items-center">
