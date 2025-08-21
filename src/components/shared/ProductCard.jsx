@@ -54,7 +54,7 @@ export default function ProductCard({ product, sale = 0, wishlist = false }) {
                   }`}
                   onClick={() => {
                     setIsFav(!isFav);
-                    dispatch(addToWishlist(product)); // optional if you want Redux update too
+                    dispatch(addToWishlist(product));
                   }}
                 />
                 <Eye className="bg-white rounded-full size-6" />

@@ -1,17 +1,15 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { fetchProducts } from "@/store/productsSlice";
 import { useSelector, useDispatch } from "react-redux";
-// import { removeFromCart, updateQuantity, clearCart } from "@/store/cartSlice";
+import { removeFromCart, updateQuantity, clearCart } from "@/store/cartSlice";
+import { setCheckoutItems } from "@/store/checkoutSlice";
 import Loader from "@/components/shared/Loader";
 import NotFound404 from "@/pages/NotFound404";
 import PriceSummary from "@/components/shared/PriceSummary";
-import { ArrowUp, ArrowDown } from "lucide-react";
+import { XIcon, ArrowUp, ArrowDown } from "lucide-react";
 export default function Cart() {
-  const details = [
-    { title: "Subtotal:", value: 0 },
-    { title: "Shipping:", value: "Free" },
-    { title: "Total:", value: 0 },
-  ];
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
   const { data: products, status } = useSelector((state) => state.products);
@@ -22,12 +20,11 @@ export default function Cart() {
   }, [status, dispatch]);
   if (status === "loading" || !products || !cartItems) return <Loader />;
   if (status === "failed") return <NotFound404 />;
+
   const getCartWithDetails = cartItems.map((item) => {
     const product = products.find((p) => p.id === item.productId);
 
     if (!product) return "";
-    details[0].value += product.price;
-    details[2].value += product.price;
 
     return {
       ...item,
@@ -37,6 +34,23 @@ export default function Cart() {
     };
   });
 
+  const subtotal = getCartWithDetails.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+  const shipping = 10;
+  const details = [
+    { title: "Subtotal:", value: subtotal },
+    { title: "Shipping:", value: shipping },
+    { title: "Total:", value: subtotal + shipping },
+  ];
+
+  const handleRemove = (productId) => {
+    dispatch(removeFromCart({ productId }));
+  };
+  const handleQuantityChange = (productId, quantity) => {
+    dispatch(updateQuantity({ productId, quantity }));
+  };
   const gridHeaders = ["Product", "Price", "Quantity", "SubTotal"];
   return (
     <section className="w-9/12 px-4 sm:px-8 lg:px-16">
@@ -46,7 +60,16 @@ export default function Cart() {
         ))}
         {getCartWithDetails.map((item, index) => (
           <>
-            <div key={index} className="flex items-center gap-2 w-full">
+            <div
+              key={index}
+              className="flex items-center gap-2 w-full relative"
+            >
+              <XIcon
+                className="absolute bg-[#DB4444] rounded-full top-0 hover:cursor-pointer"
+                size={16}
+                color="white"
+                onClick={() => handleRemove(item.productId)}
+              />
               <img src={item.image} alt={item.title} className="size-15" />
               <p className="hidden md:inline-block ml-2 text-sm truncate">
                 {item.title}
@@ -56,8 +79,24 @@ export default function Cart() {
             <div className="border-1 border-[#999999] p-1 text-center rounded-sm flex justify-around">
               {item.quantity}
               <div className="hover:cursor-pointer">
-                <ArrowUp size={12} />
-                <ArrowDown size={12} />
+                <ArrowUp
+                  size={12}
+                  onClick={() =>
+                    handleQuantityChange(
+                      item.productId,
+                      Number(item.quantity + 1)
+                    )
+                  }
+                />
+                <ArrowDown
+                  size={12}
+                  onClick={() =>
+                    handleQuantityChange(
+                      item.productId,
+                      Number(item.quantity - 1)
+                    )
+                  }
+                />
               </div>
             </div>
             <p>{item.price * item.quantity}$</p>
@@ -68,6 +107,9 @@ export default function Cart() {
             <button
               key={index}
               className="md:p-2.5 w-2/5 md:w-1/5 border-1 border-[#999999] rounded-sm font-medium hover:cursor-pointer"
+              onClick={() => {
+                index === 0 ? navigate("/") : "";
+              }}
             >
               {item}
             </button>
@@ -89,7 +131,13 @@ export default function Cart() {
         <div className="flex flex-col w-2/5 border-2 border-black rounded-sm p-5">
           <h3 className="font-medium text-xl mb-3">Cart Total</h3>
           <PriceSummary details={details} />
-          <button className="self-center bg-[#db4444] rounded-sm text-white w-1/2 p-2 mt-3 hover:cursor-pointer">
+          <button
+            className="self-center bg-[#db4444] rounded-sm text-white w-1/2 p-2 mt-3 hover:cursor-pointer"
+            onClick={() => {
+              navigate("/checkout");
+              dispatch(setCheckoutItems(cartItems));
+            }}
+          >
             Proceed to checkout
           </button>
         </div>

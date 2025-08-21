@@ -1,10 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import CheckoutProduct from "@/components/shared/CheckoutProduct";
 import BkashIcon from "@/assets/icons/bkash.svg?react";
 import VisaIcon from "@/assets/icons/visa.svg?react";
 import MasterCardIcon from "@/assets/icons/masterCard.svg?react";
 import PriceSummary from "@/components/shared/PriceSummary";
+import { fetchProducts } from "@/store/productsSlice";
+import NotFound404 from "@/pages/NotFound404";
+import Loader from "@/components/shared/Loader";
+
 export default function Checkout() {
+  const [formValues, setFormValues] = useState({
+    firstname: "",
+    companyname: "",
+    email: "",
+    streetaddress: "",
+    city: "",
+    phonenumber: "",
+    apartment: "",
+    checkbox: false,
+  });
+  const dispatch = useDispatch();
+  const checkoutItems = useSelector((state) => state.checkout?.items);
+  const { data: products, status } = useSelector((state) => state.products);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (status === "idle") {
+      dispatch(fetchProducts());
+    }
+  }, [status, dispatch]);
+  const checkoutWithDetails = checkoutItems.map((item) => {
+    const product = products.find((p) => p.id === item.productId);
+    return { quantity: item.quantity, ...product };
+  });
+
+  if (status === "loading" || !products) return <Loader />;
+  if (status === "failed") return <NotFound404 />;
+
   const inputs = [
     {
       type: "text",
@@ -58,21 +90,16 @@ export default function Checkout() {
       label: "Cash on delivery",
     },
   ];
+  const subtotal = checkoutWithDetails.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+  const shipping = 10;
   const details = [
-    { title: "Subtotal:", value: "150" },
-    { title: "Shipping:", value: "50" },
-    { title: "Total:", value: "200" },
+    { title: "Subtotal:", value: subtotal },
+    { title: "Shipping:", value: shipping },
+    { title: "Total:", value: subtotal + shipping },
   ];
-  const [formValues, setFormValues] = useState({
-    firstname: "",
-    companyname: "",
-    email: "",
-    streetaddress: "",
-    city: "",
-    phonenumber: "",
-    apartment: "",
-    checkbox: false,
-  });
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues((prev) => ({
@@ -123,8 +150,9 @@ export default function Checkout() {
         </div>
 
         <div className="flex flex-col w-1/3 gap-y-4">
-          {/* TODO: MAP ON each product in cart */}
-          <CheckoutProduct />
+          {checkoutWithDetails.map((item, index) => (
+            <CheckoutProduct key={index} product={item} />
+          ))}
           <PriceSummary details={details} />
           {inputs.slice(-2).map((input, index) => (
             <div key={index} className="flex justify-between items-center mb-3">

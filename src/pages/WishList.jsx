@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProducts } from "@/store/productsSlice";
 import SectionModule from "@/components/shared/SectionModule";
+import Loader from "@/components/shared/Loader";
+import NotFound404 from "./NotFound404";
 
 export default function WishList() {
   const wishlistItems = useSelector((state) => state.wishlist);
@@ -12,6 +14,9 @@ export default function WishList() {
       dispatch(fetchProducts());
     }
   }, [status, dispatch]);
+  if (status === "loading" || !products) return <Loader />;
+  if (status === "failed") return <NotFound404 />;
+
   return (
     <section className="flex flex-col items-center w-9/12 gap-y-16 px-4 sm:px-8 lg:px-16">
       <div className="w-full">
