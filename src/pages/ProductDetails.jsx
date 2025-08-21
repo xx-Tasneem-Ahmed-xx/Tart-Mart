@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import NotFound404 from "@/pages/NotFound404";
 import SectionModule from "@/components/shared/SectionModule";
 import Loader from "@/components/shared/Loader";
 import { fetchSingleProduct } from "@/store/singleProductSlice";
 import { fetchProducts } from "@/store/productsSlice";
+import { setCheckoutItems } from "@/store/checkoutSlice";
+import { addToWishlist, removeFromWishlist } from "@/store/wishlistSlice";
 import StarRating from "@/components/shared/StarRating";
 import { Heart, Repeat, Truck } from "lucide-react";
 
 export default function ProductDetails() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
   const { data: singleProduct, status: singleStatus } = useSelector(
@@ -24,6 +27,12 @@ export default function ProductDetails() {
     dispatch(fetchSingleProduct(id));
     dispatch(fetchProducts());
   }, [dispatch, id]);
+
+  const wishlistItems = useSelector((state) => state.wishlist);
+
+  const [isFavourite, setisFavourite] = useState(
+    wishlistItems?.some((item) => item.id === singleProduct?.id)
+  );
 
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
@@ -47,7 +56,10 @@ export default function ProductDetails() {
   const count = Math.floor(singleProduct.rating.rate);
   const availableColors = colors.slice(0, count);
   const availabeleSizes = sizes.slice(0, count);
-
+  const handleBuyNow = () => {
+    dispatch(setCheckoutItems([{ productId: singleProduct.id, quantity: 1 }]));
+    navigate("/checkout");
+  };
   return (
     <>
       <section className="flex flex-col items-center w-7xl gap-y-16 px-4 sm:px-8 lg:px-16">
@@ -129,10 +141,24 @@ export default function ProductDetails() {
                   -
                 </button>
               </div>
-              <button className="bg-[#DB4444] text-white px-4 h-10 rounded-md w-28 hover:cursor-pointer">
+              <button
+                className="bg-[#DB4444] text-white px-4 h-10 rounded-md w-28 hover:cursor-pointer"
+                onClick={handleBuyNow}
+              >
                 Buy Now
               </button>
-              <button className="border-[1px] p-2 rounded-md hover:bg-[#DB4444] cursor-pointer hover:text-white">
+              <button
+                className={`border-[1px] p-2 rounded-md hover:bg-[#DB4444] cursor-pointer hover:text-white ${
+                  isFavourite
+                    ? "bg-[#DB4444] text-white"
+                    : "bg-white text-black"
+                }`}
+                onClick={() => {
+                  setisFavourite(!isFavourite);
+                  if (!isFavourite) dispatch(addToWishlist(singleProduct));
+                  else dispatch(removeFromWishlist(singleProduct.id));
+                }}
+              >
                 <Heart />
               </button>
             </div>
@@ -153,10 +179,10 @@ export default function ProductDetails() {
                 <p className="ml-5">
                   Return Delivery
                   <br />
-                  <p className="text-sm">
+                  <span className="text-sm">
                     Free 30 Days Delivery Returns.
                     <span className="pl-1 underline">Details</span>
-                  </p>
+                  </span>
                 </p>
               </div>
             </div>
