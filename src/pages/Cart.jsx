@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchProducts } from "@/store/productsSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart, updateQuantity, clearCart } from "@/store/cartSlice";
+import { removeFromCart, updateQuantity } from "@/store/cartSlice";
 import { setCheckoutItems } from "@/store/checkoutSlice";
 import Loader from "@/components/shared/Loader";
 import NotFound404 from "@/pages/NotFound404";
@@ -99,7 +99,13 @@ export default function Cart() {
                 />
               </div>
             </div>
-            <p>{item.price * item.quantity}$</p>
+            <p>
+              $
+              {(item.price * item.quantity).toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </p>
           </>
         ))}
         <div className="w-full flex justify-between col-span-4">

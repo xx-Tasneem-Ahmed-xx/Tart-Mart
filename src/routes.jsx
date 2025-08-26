@@ -8,6 +8,7 @@ import WishList from "@/pages/WishList";
 import Checkout from "@/pages/Checkout";
 import Cart from "@/pages/Cart";
 import About from "@/pages/About";
+import Contact from "@/pages/Contact";
 
 const routes = [
   {
@@ -34,6 +35,7 @@ const routes = [
   { path: "/checkout", element: <Checkout /> },
   { path: "/cart", element: <Cart /> },
   { path: "/about", element: <About /> },
+  { path: "/contact", element: <Contact /> },
   {
     path: "*",
     element: <NotFound />,

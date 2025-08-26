@@ -1,5 +1,9 @@
 import React from "react";
-import Timer from "./Timer";
+import { useNavigate } from "react-router-dom";
+import Timer from "@/components/shared/Timer";
+import ProductCard from "@/components/shared/ProductCard";
+import CategoryCard from "@/components/shared/CategoryCard";
+import Featured from "@/components/shared/Featured";
 import {
   Carousel,
   CarouselContent,
@@ -7,10 +11,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import ProductCard from "./ProductCard";
-import CategoryCard from "./CategoryCard";
-import Featured from "./Featured";
-import { useNavigate } from "react-router-dom";
 export default function SectionModule({
   title1 = "",
   title2 = "",

@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+// eslint-disable-next-line no-unused-vars
+import { motion, AnimatePresence } from "framer-motion";
+import { XCircleIcon, CheckCircle2Icon } from "lucide-react";
+import { Alert, AlertTitle } from "@/components/ui/alert";
 import StarRating from "./StarRating";
 import { Heart } from "lucide-react";
 import { Eye } from "lucide-react";
@@ -11,7 +15,12 @@ import { addToCart } from "@/store/cartSlice";
 
 export default function ProductCard({ product, sale = 0, wishlist = false }) {
   const [isFav, setIsFav] = useState(product.favourite || false);
-
+  const [alert, setAlert] = useState({
+    visible: false,
+    bgColor: "bg-green-300",
+    title: "",
+    icon: <></>,
+  });
   const navigate = useNavigate();
   const dispatch = useDispatch();
   return (
@@ -34,7 +43,18 @@ export default function ProductCard({ product, sale = 0, wishlist = false }) {
             <>
               <button
                 className="bg-black w-full absolute bottom-0 text-white text-center rounded-md p-2 hover:cursor-pointer hover:opacity-80"
-                onClick={() => dispatch(addToCart({ productId: product.id }))}
+                onClick={() => {
+                  dispatch(addToCart({ productId: product.id }));
+                  setAlert({
+                    visible: true,
+                    bgColor: "bg-green-300",
+                    icon: <CheckCircle2Icon />,
+                    title: `Item added successfully!`,
+                  });
+                  setTimeout(() => {
+                    setAlert({ visible: false });
+                  }, 2000);
+                }}
               >
                 Add To Cart
               </button>
@@ -79,6 +99,32 @@ export default function ProductCard({ product, sale = 0, wishlist = false }) {
           />
         </div>
       </div>
+      <AnimatePresence>
+        {alert.visible && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+            className="fixed top-4 right-4"
+          >
+            <Alert className={`flex ${alert.bgColor} w-fit`}>
+              {alert.icon}
+              <AlertTitle>{alert.title}</AlertTitle>
+              <button
+                className="hover:cursor-pointer"
+                onClick={() =>
+                  setAlert({
+                    visible: false,
+                  })
+                }
+              >
+                <XCircleIcon size={22} />
+              </button>
+            </Alert>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
