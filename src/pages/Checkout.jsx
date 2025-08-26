@@ -111,7 +111,7 @@ export default function Checkout() {
   return (
     <section className="w-9/12 gap-y-16 px-4 sm:px-8 lg:px-16">
       <h3 className="font-medium text-2xl mb-10">Billing Details</h3>
-      <div className="flex justify-between w-full">
+      <div className="flex flex-col md:flex-row justify-between w-full">
         <div className="flex flex-col ">
           {inputs.slice(0, -3).map((input, index) =>
             input.type === "checkbox" ? (
@@ -149,7 +149,7 @@ export default function Checkout() {
           )}
         </div>
 
-        <div className="flex flex-col w-1/3 gap-y-4">
+        <div className="flex flex-col w-full md:w-1/3 gap-y-4">
           {checkoutWithDetails.map((item, index) => (
             <CheckoutProduct key={index} product={item} />
           ))}

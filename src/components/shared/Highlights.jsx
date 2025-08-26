@@ -1,35 +1,23 @@
 import React from "react";
-import { Truck, Headset, ShieldCheck } from "lucide-react";
-export default function Highlights() {
+export default function Highlights({ services, border = false }) {
   return (
-    <section className="flex justify-around w-full items-center">
-      <div className="flex flex-col gap-1 items-center">
-        <div className="bg-[#7170734c] rounded-full w-fit p-2.5 mb-4">
-          <div className="bg-black rounded-full p-2">
-            <Truck size={40} color="white" />
+    <section className="flex flex-wrap justify-around w-full items-center">
+      {services.map((service, index) => (
+        <div
+          key={index}
+          className={`flex flex-col gap-1 items-center rounded-md p-5 hover:bg-[#DB4444] group hover:shadow-md hover:text-white ${
+            border ? "border-[1px]" : ""
+          }`}
+        >
+          <div className="bg-[#7170734c] rounded-full w-fit p-2.5 mb-4 group-hover:bg-[#e5e2e25b]">
+            <div className="bg-black rounded-full p-2 text-white group-hover:bg-white group-hover:text-black">
+              {service.icon}
+            </div>
           </div>
+          <p className="font-bold text-xl">{service.title}</p>
+          <p>{service.description}</p>
         </div>
-        <p className="font-bold text-xl">FREE AND FAST DELIVERY</p>
-        <p>Free delivery for all orders over $140</p>
-      </div>
-      <div className="flex flex-col gap-1 items-center">
-        <div className="bg-[#7170734c] rounded-full w-fit p-2.5 mb-4">
-          <div className="bg-black rounded-full p-2">
-            <Headset size={40} color="white" />
-          </div>
-        </div>
-        <p className="font-bold text-xl">24/7 CUSTOMER SERVICE</p>
-        <p>Friendly 24/7 customer support</p>
-      </div>
-      <div className="flex flex-col gap-1 items-center">
-        <div className="bg-[#7170734c] rounded-full w-fit p-2.5 mb-4">
-          <div className="bg-black rounded-full p-2">
-            <ShieldCheck size={40} color="white" />
-          </div>
-        </div>
-        <p className="font-bold text-xl">MONEY BACK GUARANTEE</p>
-        <p>We reurn money within 30 days</p>
-      </div>
+      ))}
     </section>
   );
 }

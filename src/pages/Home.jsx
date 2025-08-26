@@ -5,6 +5,7 @@ import Hero from "@/components/shared/Hero";
 import SectionModule from "@/components/shared/SectionModule";
 import Speaker from "@/assets/images/speaker.png";
 import Highlights from "@/components/shared/Highlights";
+import { Truck, Headset, ShieldCheck } from "lucide-react";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -18,6 +19,24 @@ export default function Home() {
   const categories = useMemo(() => {
     return [...new Set(products.map((product) => product.category))];
   }, [products]);
+
+  const serviceHighlights = [
+    {
+      icon: <Truck size={30} />,
+      title: "FREE AND FAST DELIVERY",
+      description: "Free delivery for all orders over $140",
+    },
+    {
+      icon: <Headset size={30} />,
+      title: "24/7 CUSTOMER SERVICE",
+      description: "Friendly 24/7 customer support",
+    },
+    {
+      icon: <ShieldCheck size={30} />,
+      title: "MONEY BACK GUARANTEE",
+      description: "We reurn money within 30 days",
+    },
+  ];
   return (
     <>
       <section className="flex flex-col items-center w-7xl gap-y-16 px-4 sm:px-8 lg:px-16">
@@ -64,7 +83,7 @@ export default function Home() {
           title2="New Arrival"
           sectionType="Featured"
         />
-        <Highlights />
+        <Highlights services={serviceHighlights} />
       </section>
     </>
   );
