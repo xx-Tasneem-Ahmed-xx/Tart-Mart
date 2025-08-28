@@ -39,7 +39,7 @@ export default function Home() {
   ];
   return (
     <>
-      <section className="flex flex-col items-center w-7xl gap-y-16 px-4 sm:px-8 lg:px-16">
+      <section className="flex flex-col items-center w-full gap-y-16 px-4 sm:px-8 lg:px-16">
         <Hero />
         <SectionModule
           products={products}

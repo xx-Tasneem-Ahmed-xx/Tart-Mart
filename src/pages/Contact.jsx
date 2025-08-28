@@ -69,8 +69,8 @@ export default function Contact() {
     e.preventDefault();
     try {
       // TODO validation for required fields
-      // TODO send data to API or backend here
-      // TODO localStorage.removeItem("contactForm");
+      // TODO send data to API or backend
+      // TODO localStorage.removeItem("contactForm"); afterwards
       console.log("Form submitted:", formData);
       setAlert({
         visible: true,

@@ -198,7 +198,7 @@ export default function Account() {
 
       {sidebarOpen && (
         <aside className="fixed inset-0 z-50 md:hidden">
-          <div className="bg-white w-64 h-full p-4 shadow-lg flex flex-col">
+          <div className="bg-white w-64 h-full rounded-md p-4 shadow-lg flex flex-col">
             <button className="self-end" onClick={() => setSidebarOpen(false)}>
               <XCircleIcon />
             </button>

@@ -41,7 +41,7 @@ export default function SectionModule({
           opts={{
             align: "start",
           }}
-          className="w-full place-self-center mt-6"
+          className="w-full place-self-center mt-6 relative"
         >
           <CarouselContent>
             {sectionType === "products" &&
@@ -57,8 +57,8 @@ export default function SectionModule({
                 </CarouselItem>
               ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2" />
+          <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2" />
         </Carousel>
       )}
       {sectionType === "products" && (

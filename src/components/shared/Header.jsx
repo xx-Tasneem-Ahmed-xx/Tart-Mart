@@ -15,14 +15,18 @@ export default function Header() {
   ];
   return (
     <header className="mb-15">
-      <p className="bg-black text-white text-center">
-        Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!
-        <span className="font-bold underline m-4">
-          <a href="">ShopNow</a>
-        </span>
-        <LanguageToggle />
-      </p>
-      <nav className="sm:flex justify-evenly w-full mt-4 mb-2 items-center">
+      <div className="bg-black text-white text-center flex justify-center items-center relative p-2">
+        <p>
+          Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!
+          <span className="font-bold underline m-4">
+            <a href="">ShopNow</a>
+          </span>
+        </p>
+        <div className="md:absolute md:right-12">
+          <LanguageToggle />
+        </div>
+      </div>
+      <nav className="sm:flex flex-wrap justify-evenly w-full mt-4 mb-2 items-center">
         <h1 className="text-3xl sm:text-4xl font-bold">Tart Mart</h1>
         <div className="sm:w-2/5">
           <ul className="flex gap-x-4  mt-4 justify-evenly items-center self-start font-medium">
