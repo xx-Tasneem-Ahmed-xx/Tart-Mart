@@ -3,8 +3,6 @@
 A modern, responsive, and scalable **E-Commerce Web Application** built with **React 19, Redux Toolkit, and Vite**.  
 This project demonstrates best practices in frontend development, state management, API handling, and UI/UX design.
 
-<br/>
-
 ## Features
 
 - **Product Management** – Browse, search, and view products.
@@ -17,8 +15,6 @@ This project demonstrates best practices in frontend development, state manageme
 - **State Management** – Centralized and predictable with **Redux Toolkit**.
 
 ---
-
-<br/>
 
 ## 🛠️ Tech Stack
 
@@ -59,8 +55,6 @@ This project demonstrates best practices in frontend development, state manageme
 
 ---
 
-<br/>
-
 ## 📂 Project Structure
 
 ```bash
@@ -93,10 +87,7 @@ e-commerce/
 └── vite.config.js
 ```
 
-<br/>
-
-## 👨‍💻 Author
+## 👨‍💻 Tasneem Ahmed
 
 Developed with ❤️ using modern web technologies.
-<br/>
 Feel free to fork, contribute and ⭐ the repo!
