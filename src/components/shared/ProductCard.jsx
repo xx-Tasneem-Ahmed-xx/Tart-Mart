@@ -9,8 +9,7 @@ import { Eye } from "lucide-react";
 import { Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { addToWishlist } from "@/store/wishListSlice";
-import { removeFromWishlist } from "@/store/wishListSlice";
+import { addToWishlist, removeFromWishlist } from "@/store/wishlistSlice";
 import { addToCart } from "@/store/cartSlice";
 
 export default function ProductCard({ product, sale = 0, wishlist = false }) {
