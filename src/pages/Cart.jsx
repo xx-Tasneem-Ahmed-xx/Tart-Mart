@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchProducts } from "@/store/productsSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart, updateQuantity, clearCart } from "@/store/cartSlice";
+import { removeFromCart, updateQuantity } from "@/store/cartSlice";
 import { setCheckoutItems } from "@/store/checkoutSlice";
 import Loader from "@/components/shared/Loader";
 import NotFound404 from "@/pages/NotFound404";
@@ -99,7 +99,13 @@ export default function Cart() {
                 />
               </div>
             </div>
-            <p>{item.price * item.quantity}$</p>
+            <p>
+              $
+              {(item.price * item.quantity).toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </p>
           </>
         ))}
         <div className="w-full flex justify-between col-span-4">
@@ -116,8 +122,8 @@ export default function Cart() {
           ))}
         </div>
       </div>
-      <div className="flex gap-x-5 items-start justify-between mt-15">
-        <div className="flex w-1/3 gap-x-2">
+      <div className="flex flex-col md:flex-row gap-y-5 md:gap-x-5 md:gap-y-0 items-start justify-between mt-15">
+        <div className="flex w-full md:w-1/3 gap-x-2">
           <input
             type="text"
             name="coupon"
@@ -128,7 +134,7 @@ export default function Cart() {
             Apply Coupon
           </button>
         </div>
-        <div className="flex flex-col w-2/5 border-2 border-black rounded-sm p-5">
+        <div className="flex flex-col w-full md:w-2/5 border-2 border-black rounded-sm p-5">
           <h3 className="font-medium text-xl mb-3">Cart Total</h3>
           <PriceSummary details={details} />
           <button

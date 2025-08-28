@@ -19,8 +19,8 @@ export default function LanguageToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative left-[10%]">
-          {language}{" "}
+        <Button variant="ghost">
+          {language}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="800px"

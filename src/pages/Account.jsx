@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+// eslint-disable-next-line no-unused-vars
+import { motion, AnimatePresence } from "framer-motion";
 import { MenuIcon, XCircleIcon, CheckCircle2Icon } from "lucide-react";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 export default function Account() {
@@ -159,6 +161,9 @@ export default function Account() {
         });
         cleanForm();
       }
+      setTimeout(() => {
+        setAlert({ visible: false });
+      }, 2000);
     }
   };
   const generateMenu = function () {
@@ -193,7 +198,7 @@ export default function Account() {
 
       {sidebarOpen && (
         <aside className="fixed inset-0 z-50 md:hidden">
-          <div className="bg-white w-64 h-full p-4 shadow-lg flex flex-col">
+          <div className="bg-white w-64 h-full rounded-md p-4 shadow-lg flex flex-col">
             <button className="self-end" onClick={() => setSidebarOpen(false)}>
               <XCircleIcon />
             </button>
@@ -251,22 +256,32 @@ export default function Account() {
           </div>
         </div>
       </div>
-      {alert.visible && (
-        <Alert className={`flex fixed top-0 right-0 ${alert.bgColor} w-fit`}>
-          {alert.icon}
-          <AlertTitle>{alert.title}</AlertTitle>
-          <button
-            className="hover:cursor-pointer"
-            onClick={() =>
-              setAlert({
-                visible: false,
-              })
-            }
+      <AnimatePresence>
+        {alert.visible && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+            className="fixed top-4 right-4"
           >
-            <XCircleIcon size={22} />
-          </button>
-        </Alert>
-      )}
+            <Alert className={`flex ${alert.bgColor} w-fit`}>
+              {alert.icon}
+              <AlertTitle>{alert.title}</AlertTitle>
+              <button
+                className="hover:cursor-pointer"
+                onClick={() =>
+                  setAlert({
+                    visible: false,
+                  })
+                }
+              >
+                <XCircleIcon size={22} />
+              </button>
+            </Alert>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

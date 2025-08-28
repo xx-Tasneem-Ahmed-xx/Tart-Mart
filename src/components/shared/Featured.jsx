@@ -5,52 +5,50 @@ import Woman from "@/assets/images/woman.jpg";
 import PlayStation from "@/assets/images/playstation.png";
 
 export default function Featured() {
+  const features = [
+    {
+      image: PlayStation,
+      title: "PlayStation 5",
+      paragraph: "Black and White version of the PS5 coming out on sale.",
+      gridSpan: "col-span-2 row-span-4",
+    },
+    {
+      image: Woman,
+      title: "Women’s Collections",
+      paragraph: "Featured woman collections that give you another vibe.",
+      gridSpan: "col-span-2 row-span-2",
+    },
+    {
+      image: Speaker,
+      title: "Speakers",
+      paragraph: "Amazon wireless speakers",
+      gridSpan: "col-span-1 row-span-2",
+    },
+    {
+      image: Guccie,
+      title: "Perfume",
+      paragraph: "GUCCI INTENSE OUD EDP",
+      gridSpan: "col-span-1 row-span-2",
+    },
+  ];
+
   return (
     <section className="grid grid-cols-4 grid-rows-4 gap-5 w-full my-5 ">
-      <div className="col-span-2 row-span-4 bg-black relative rounded-sm">
-        <div className="flex items-center justify-center h-full w-full">
-          <img src={PlayStation} alt="Playstaion" />
+      {features.map((feat, index) => (
+        <div
+          key={index}
+          className={`${feat.gridSpan} bg-black relative rounded-sm`}
+        >
+          <div className="flex items-center justify-center h-full w-full">
+            <img src={feat.image} alt={feat.image} />
+          </div>
+          <div className="flex flex-col gap-y-1 text-white absolute bottom-3 left-4 w-3/4 md:w-1/2 text-[10px] sm:text-sm md:text-xl">
+            <h4 className="font-bold">{feat.title}</h4>
+            <p className="font-light ">{feat.paragraph}</p>
+            <a className="font-medium underline">Shop Now</a>
+          </div>
         </div>
-        <div className="flex flex-col gap-y-1 text-white absolute bottom-3 left-4 w-1/2 ">
-          <h4 className="text-xl font-bold">PlayStation 5</h4>
-          <p className="font-light">
-            Black and White version of the PS5 coming out on sale.
-          </p>
-          <a className="font-medium underline">Shop Now</a>
-        </div>
-      </div>
-      <div className="col-span-2 row-span-2 bg-black relative rounded-sm">
-        <div>
-          <img src={Woman} alt="Woman" />
-        </div>
-        <div className="flex flex-col gap-y-1 text-white absolute bottom-3 left-4 w-1/2 ">
-          <h4 className="text-xl font-bold">Women’s Collections</h4>
-          <p className="font-light">
-            Featured woman collections that give you another vibe.
-          </p>
-          <a className="font-medium underline">Shop Now</a>
-        </div>
-      </div>
-      <div className="col-span-1 row-span-2 bg-black relative rounded-sm">
-        <div className="flex items-center justify-center h-full w-full">
-          <img src={Speaker} alt="speakers" />
-        </div>
-        <div className="flex flex-col gap-y-1 text-white absolute bottom-3 left-4 w-1/2 ">
-          <h4 className="text-xl font-bold">Speakers</h4>
-          <p className="font-light">Amazon wireless speakers</p>
-          <a className="font-medium underline">Shop Now</a>
-        </div>
-      </div>
-      <div className="col-span-1 row-span-2 bg-black relative rounded-sm">
-        <div className="flex items-center justify-center h-full w-full">
-          <img src={Guccie} alt="guccie perfume" />
-        </div>
-        <div className="flex flex-col gap-y-1 text-white absolute bottom-3 left-4 w-1/2 ">
-          <h4 className="text-xl font-bold">Perfume</h4>
-          <p className="font-light">GUCCI INTENSE OUD EDP </p>
-          <a className="font-medium underline">Shop Now</a>
-        </div>
-      </div>
+      ))}
     </section>
   );
 }
