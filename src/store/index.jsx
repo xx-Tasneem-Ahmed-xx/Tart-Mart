@@ -4,7 +4,7 @@ import { persistReducer, persistStore } from "redux-persist";
 
 import productsReducer from "@/store/productsSlice";
 import singleProductReducer from "@/store/singleProductSlice";
-import wishlistReducer from "@/store/wishListSlice";
+import wishlistReducer from "@/store/wishlistSlice";
 import cartReducer from "@/store/cartSlice";
 import checkoutReducer from "@/store/checkoutSlice";
 
